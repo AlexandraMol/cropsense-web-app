@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block title %}CROPSENSE{% endblock %} {% block
+content %}
+
+<div
+  class="container d-flex flex-column justify-content-center align-items-center text-center"
+>
+  <!-- Title -->
+  <h1 class="mb-4">CROPSENSE</h1>
+
+  <!-- Description -->
+  <p class="subtitle mb-5" style="max-width: 600px">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat.
+  </p>
+
+  <!-- Buttons -->
+  <div class="d-flex gap-3">
+    <a href="/predict" class="btn btn-accent btn-lg"> Run Pipeline </a>
+
+    <a href="/resources" class="btn btn-accent btn-lg"> Project Resources </a>
+  </div>
+</div>
+
+{% endblock %}

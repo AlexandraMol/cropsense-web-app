@@ -1,0 +1,54 @@
+{% extends "base.html" %} {% block title %}Project Resources{% endblock %} {%
+block content %}
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h1>Project Resources</h1>
+    <p class="subtitle">Explore documentation, reports, and deliverables</p>
+  </div>
+
+  <!-- Sections -->
+  <div class="row g-4">
+    <!-- Code Documentation -->
+    <div class="col-md-6 col-lg-3">
+      <div class="card section-card p-4 text-center h-100">
+        <h5>Code Documentation</h5>
+        <p class="subtitle">Technical details of the implementation</p>
+        <a href="#" class="btn btn-accent btn-custom mt-auto">View</a>
+      </div>
+    </div>
+
+    <!-- Report -->
+    <div class="col-md-6 col-lg-3">
+      <div class="card section-card p-4 text-center h-100">
+        <h5>Report</h5>
+        <p class="subtitle">Research findings and analysis</p>
+        <a href="#" class="btn btn-accent btn-custom mt-auto">Open</a>
+      </div>
+    </div>
+
+    <!-- Final Presentation -->
+    <div class="col-md-6 col-lg-3">
+      <div class="card section-card p-4 text-center h-100">
+        <h5>Final Presentation</h5>
+        <p class="subtitle">Slides and visual summary</p>
+        <a href="#" class="btn btn-accent btn-custom mt-auto">View</a>
+      </div>
+    </div>
+
+    <!-- Python Files -->
+    <div class="col-md-6 col-lg-3">
+      <div class="card section-card p-4 text-center h-100">
+        <h5>Python Files</h5>
+        <p class="subtitle">Download project code</p>
+        <a href="#" class="btn btn-accent btn-custom mt-auto">Download</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="text-center mt-5">
+    <a href="/" class="btn btn-light me-2">Home</a>
+    <a href="/predict" class="btn btn-accent">Run Pipeline</a>
+  </div>
+</div>
+{% endblock %}
