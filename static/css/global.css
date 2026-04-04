@@ -1,62 +1,71 @@
 /* ===== VARIABLES ===== */
 :root {
-  --bg-main: #0f0f0f;
-  --bg-card: #1c1c1c;
-  --text-muted: #aaaaaa;
+    --bg-main: #0f0f0f;
+    --bg-card: #1c1c1c;
+    --text-muted: #aaaaaa;
 
-  --dark-green: #346739;
-  --medium-green: #79ae6f;
-  --light-green: #97cb98;
-  --light-yellow: #f2edc2;
+    --dark-green: #346739;
+    --medium-green: #79ae6f;
+    --light-green: #97cb98;
+    --dark-yellow: #eec811;
 
-  --accent: #6c63ff;
-  --accent-hover: #5a52e0;
+    --accent: #6c63ff;
+    --accent-hover: #5a52e0;
 
-  --border-radius: 16px;
+    --border-radius: 16px;
 
-  --bg-image: url("/static/assets/images/background.jpeg");
+    --bg-image: url("/static/assets/images/background.jpeg");
 }
 
 /* ===== GLOBAL STYLES ===== */
 body {
-  margin: 0;
-  min-height: 100vh;
-  background: var(--bg-image) no-repeat center center/cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, sans-serif;
-  text-align: center;
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg-image) no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    text-align: center;
 }
 
 /* ===== CARDS ===== */
 .section-card {
-  border: none;
-  border-radius: var(--border-radius);
-  transition: all 0.2s ease;
+    border: none;
+    border-radius: var(--border-radius);
+    transition: all 0.2s ease;
 }
 
 .section-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
 /* ===== BUTTONS ===== */
 .btn-custom {
-  border-radius: 10px;
+    border-radius: 10px;
 }
 
 .btn-accent {
-  background-color: var(--accent);
-  color: white;
-  border: none;
+    background-color: var(--dark-green);
+    color: white;
+    border: none;
 }
 
 .btn-accent:hover {
-  background-color: var(--accent-hover);
+    background-color: var(--dark-green);
+    color: var(--dark-yellow);
 }
 
 /* ===== TEXTS ===== */
 h1 {
-  font-weight: 600;
+    font-weight: 600;
+    color: var(--dark-green);
 }
+
+h5 {
+    color: var(--dark-green);
+    font-weight: 600    ;
+}
+
+
