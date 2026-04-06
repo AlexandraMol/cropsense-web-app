@@ -41,6 +41,11 @@ body {
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
+.bg-primary {
+    background-color: var(--dark-green) !important;
+    color: white;
+}
+
 /* ===== BUTTONS ===== */
 .btn-custom {
     border-radius: 10px;
@@ -65,7 +70,32 @@ h1 {
 
 h5 {
     color: var(--dark-green);
-    font-weight: 600    ;
+    font-weight: 600;
 }
+
+.text-medium-green {
+    color: var(--medium-green);
+}
+
+.text-dark-green {
+    color: var(--dark-green);
+}
+
+/* ===== PIPELINE SPECIFIC CLASSES ===== */
+
+.badge-stage-1 {
+    background-color: #d8bfd8;
+    color: #4b0082;
+}
+
+.spinner-border {
+    color: var(--dark-green);
+}
+
+.progress-bar {
+    background-color: var(--medium-green);
+    width: 65%;
+}
+
 
 

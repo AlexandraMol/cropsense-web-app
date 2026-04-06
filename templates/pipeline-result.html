@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% block title %}ETL Results - Cropsense{% endblock %}
+
+{% block content %}
+<div class="container py-5 bg-white bg-opacity-75 rounded-4 shadow-lg my-5">
+
+    <div class="d-flex justify-content-center align-items-center mb-5 border-bottom border-success pb-3">
+        <div class="text-center">
+            <h1 class="display-5 fw-bold">Pipeline ETL Status</h1>
+            <p class="lead text-muted small">Processed Session: #CS20251214_Plant001 | Sensor Suite:
+                Spectral+Thermal+RGB</p>
+        </div>
+    </div>
+
+    <div class="row g-5">
+        <div class="col-lg-7 text-start">
+            <h5 class="mb-4"><i class="bi bi-stack me-2"></i>Data Transformation Flow</h5>
+
+            <div class="card section-card shadow-sm border-0 border-start border-5 border-success mb-4 p-3 bg-light">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <span class="badge rounded-pill p-2 text-uppercase font-monospace small badge-stage-1"
+                        >Stage 1</span>
+                        <h5 class="fw-bold mt-2">Data Visualisation & QC Check</h5>
+                        <p class="text-muted small mb-0">Imported 3 sensor files (raw, thermal, rgb). Band alignment
+                            verified.</p>
+                    </div>
+                </div>
+
+                <div class="mt-3 p-2 bg-white rounded border">
+                    <label class="form-label small fw-bold text-uppercase text-muted">QC Output: False-Color Band
+                        Composite</label>
+                    <img src="https://www.researchgate.net/profile/Gerrit-Polder/publication/259215766/figure/fig2/AS:392576466210819@1470608931290/Example-of-a-hyperspectral-image-data-cube-Each-pixels-consists-of-a-complete-reflection.png"
+                         class="img-fluid rounded border" alt="Band Visualisation Preview">
+                    <div class="text-center mt-2"><span class="badge bg-primary small">QC PASSED</span></div>
+                </div>
+            </div>
+
+            <div class="card section-card shadow-sm border-0 border-start border-5 border-success mb-4 p-3 bg-light">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span class="badge rounded-pill bg-warning text-dark p-2 text-uppercase font-monospace small">Stage 2</span>
+                        <h5 class="fw-bold mt-2">Hyperspectral Preprocessing Suite</h5>
+                    </div>
+                </div>
+
+                <ul class="list-group list-group-flush list-group-numbered small mt-2">
+                    <li class="list-group-item bg-transparent border-0"><strong
+                            class="text-medium-green">Normalisation:</strong> Scale [0-10000] → [0-1].
+                    </li>
+                    <li class="list-group-item bg-transparent border-0"><strong class="text-medium-green">Fourier
+                        Transform:</strong> Frequency domain rejection.
+                    </li>
+                    <li class="list-group-item bg-transparent border-0"><strong class="text-medium-green">Smoothing
+                        (Savitzky-Golay):</strong> Applied (W:7, P:2).
+                    </li>
+                    <li class="list-group-item bg-transparent border-0"><strong class="text-medium-green">Mean Scatter
+                        Correction (MSC):</strong> Path length correction.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card section-card shadow-sm border-0 border-start border-5 p-3"
+                 style="border-color: var(--dark-green) !important;">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span class="badge rounded-pill p-2 text-uppercase font-monospace small bg-primary">Stage 3</span>
+                        <h5 class="fw-bold mt-2">Segmentation & Conversion</h5>
+                        <p class="text-muted small mb-1">Applying masks and converting DN to absorbance.</p>
+                    </div>
+                    <div class="spinner-border" role="status"></div>
+                </div>
+
+                <div class="progress mt-2" style="height: 10px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 text-start">
+            <h5 class="mb-4"><i class="bi bi-clipboard-data me-2"></i>Final Analysis & DB Ingest</h5>
+
+            <div class="card section-card shadow-sm border-0 border-top border-5 p-4 h-100 bg-light">
+                <div class="text-center mb-4">
+                    <span class="badge rounded-pill p-2 px-4 text-uppercase font-monospace small bg-primary"
+                    >Stage 4</span>
+                    <h5 class="fw-bold mt-2">Feature Extraction</h5>
+                    <p class="text-muted small">Data added to Cropsense database.</p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold small text-uppercase text-muted"><i class="bi bi-crop me-2"></i>ROI
+                        Selection</label>
+                    <table class="table table-sm table-bordered bg-white mb-0 small rounded">
+                        <tbody>
+                        <tr>
+                            <th class="w-50 bg-light">Pixel Count</th>
+                            <td>451,200</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Avg Temp</th>
+                            <td>24.8°C</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold small text-uppercase text-muted"><i
+                            class="bi bi-graph-up me-2"></i>Calculated Indices</label>
+                    <div class="d-flex justify-content-between small text-muted font-monospace mb-1">
+                        <span>0.0</span><span>1.0</span></div>
+
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between small"><span>NDVI (Vigor)</span><span
+                                class="fw-bold text-dark-green"
+                        >0.82</span>
+                        </div>
+                        <div class="progress" style="height: 12px;">
+                            <div class="progress-bar" style="width: 82%; background-color: var(--dark-green);"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between small"><span>PRI (Stress)</span><span class="fw-bold"
+                                                                                                         style="color: var(--dark-yellow);">0.45</span>
+                        </div>
+                        <div class="progress" style="height: 12px;">
+                            <div class="progress-bar" style="width: 45%; background-color: var(--dark-yellow);"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-0">
+                        <div class="d-flex justify-content-between small"><span>NDWI (Water)</span><span class="fw-bold"
+                                                                                                         style="color: var(--accent);">0.68</span>
+                        </div>
+                        <div class="progress" style="height: 12px;">
+                            <div class="progress-bar" style="width: 68%; background-color: var(--accent);"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-0">
+                    <label class="form-label fw-bold small text-uppercase text-muted"><i
+                            class="bi bi-bar-chart-steps me-2"></i>PCA Reduction</label>
+                    <div class="p-2 small border rounded mb-0 bg-white">
+                        <ul class="list-unstyled mb-0 ms-2">
+                            <li>PC1 Variance: <strong style="color: var(--dark-green);">72.5%</strong></li>
+                            <li>PC2 Variance: <strong>14.2%</strong></li>
+                            <li class="fw-bold mt-1 border-top pt-1">Total (PC1-3): 92.5%</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-5 text-center">
+            <hr class="border-success opacity-25 mb-4">
+            <a href="/upload-images" class="btn btn-accent btn-lg px-5 shadow">
+                <i class="bi bi-cloud-upload me-2"></i>New Process
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
