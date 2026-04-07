@@ -2,6 +2,12 @@
 
 A Flask-based web application for presenting research results and tools related to crop analysis and plant health detection.
 
+## 🛠️ Tech Stack
+
+- **Backend:** Flask
+- **Frontend:** HTML, Bootstrap, CSS
+- **Deployment-ready:** Docker + Gunicorn
+
 ---
 
 ## 🚀 Getting Started
@@ -74,12 +80,29 @@ http://127.0.0.1:5000/
 
 ---
 
-## 🛠️ Development Notes
+## 🐳 Running with Docker (Recommended for Deployment)
 
-- The app uses **Flask** for the backend
-- Frontend is built with **HTML + Bootstrap + custom CSS**
-- Static files are located in the `static/` folder
-- Templates are located in the `templates/` folder
+### 1. Build the Docker image
+
+```bash
+docker build -t cropsense-web-app .
+```
+
+---
+
+### 2. Run the container
+
+```bash
+docker run -p 5000:5000 cropsense-web-app
+```
+
+---
+
+### 🌐 Access the app
+
+```
+http://localhost:5000/
+```
 
 ---
 
@@ -90,14 +113,26 @@ cropsense-web-app/
 │
 ├── app.py
 ├── requirements.txt
+├── Dockerfile
 ├── templates/
+│   ├── base.html
 │   ├── homepage.html
-│   ├── results.html
-│   └── ...
+│   ├── pipeline-upload.html
+│   ├── pipeline-result.html
+│   └── resources.html
 └── static/
     ├── css/
+    │   └── global.css
     └── assets/
+        └── images/
 ```
+
+## 🛠️ Development Notes
+
+- Flask renders HTML templates using Jinja2
+- Static assets (CSS, images) are served from the `static/` directory
+- The app is structured for simplicity and rapid prototyping
+- Production deployments use **Gunicorn** inside Docker
 
 ---
 
@@ -120,7 +155,15 @@ pip freeze > requirements.txt
 
 ## 👥 Contributors
 
-- TO BE ADDED
+- Delia Fragă
+
+- Maria Alexandra Molnar
+
+- Olesia Yankiv
+
+- Antoine Herbaux
+
+- Chiemerie David Ekweanua
 
 ---
 
