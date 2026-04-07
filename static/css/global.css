@@ -1,101 +1,131 @@
 /* ===== VARIABLES ===== */
 :root {
-    --bg-main: #0f0f0f;
-    --bg-card: #1c1c1c;
-    --text-muted: #aaaaaa;
+  --bg-main: #0f0f0f;
+  --bg-card: #1c1c1c;
+  --text-muted: #aaaaaa;
 
-    --dark-green: #346739;
-    --medium-green: #79ae6f;
-    --light-green: #97cb98;
-    --dark-yellow: #eec811;
+  --dark-green: #346739;
+  --medium-green: #79ae6f;
+  --light-green: #97cb98;
+  --dark-yellow: #eec811;
 
-    --accent: #6c63ff;
-    --accent-hover: #5a52e0;
+  --border-radius: 16px;
 
-    --border-radius: 16px;
-
-    --bg-image: url("/static/assets/images/background.jpeg");
+  --bg-image: url("/static/assets/images/background.jpeg");
 }
 
 /* ===== GLOBAL STYLES ===== */
 body {
-    margin: 0;
-    min-height: 100vh;
-    background: var(--bg-image) no-repeat center center/cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    text-align: center;
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg-image) no-repeat center center/cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  text-align: center;
 }
 
 /* ===== CARDS ===== */
 .section-card {
-    border: none;
-    border-radius: var(--border-radius);
-    transition: all 0.2s ease;
+  border: none;
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
 }
 
 .section-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
 .bg-primary {
-    background-color: var(--dark-green) !important;
-    color: white;
+  background-color: var(--dark-green) !important;
+  color: white;
 }
 
 /* ===== BUTTONS ===== */
 .btn-custom {
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
 .btn-accent {
-    background-color: var(--dark-green);
-    color: white;
-    border: none;
+  background-color: var(--dark-green);
+  color: white;
+  border: none;
 }
 
 .btn-accent:hover {
-    background-color: var(--dark-green);
-    color: var(--dark-yellow);
+  background-color: var(--dark-green);
+  color: var(--dark-yellow);
 }
 
 /* ===== TEXTS ===== */
 h1 {
-    font-weight: 600;
-    color: var(--dark-green);
+  font-weight: 600;
+  color: var(--dark-green);
 }
 
 h5 {
-    color: var(--dark-green);
-    font-weight: 600;
+  color: var(--dark-green);
+  font-weight: 600;
 }
 
 .text-medium-green {
-    color: var(--medium-green);
+  color: var(--medium-green);
 }
 
 .text-dark-green {
-    color: var(--dark-green);
+  color: var(--dark-green);
+}
+
+/* NAVBAR CONTAINER */
+.nav-wrapper {
+  background-color: var(--dark-green);
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  top: 10px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 400;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--dark-yellow);
+}
+
+.nav-link.active {
+  color: var(--dark-yellow);
+  font-weight: 600;
+}
+
+/* ===== HOMEPAGE ===== */
+
+.homepage_card {
+  max-width: 60%;
+  text-align: justify;
 }
 
 /* ===== PIPELINE SPECIFIC CLASSES ===== */
 
 .badge-stage-1 {
-    background-color: #d8bfd8;
-    color: #4b0082;
+  background-color: #d8bfd8;
+  color: #4b0082;
 }
 
 .spinner-border {
-    color: var(--dark-green);
+  color: var(--dark-green);
 }
 
 .progress-bar {
-    background-color: var(--medium-green);
-    width: 65%;
+  background-color: var(--medium-green);
+  width: 65%;
 }
-
-
-
