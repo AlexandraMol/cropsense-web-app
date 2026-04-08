@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from static.assets.members.members import members
 
 app = Flask(__name__)
 
@@ -27,6 +28,9 @@ def submit_pipeline():
     # redirect them back to the upload page.
     return redirect(url_for('run_pipeline_page'))
 
+@app.route("/about-us")
+def about_us_page():
+    return render_template("about-us.html", members=members)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
