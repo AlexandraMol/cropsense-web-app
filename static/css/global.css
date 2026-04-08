@@ -135,6 +135,20 @@ h5 {
     width: 65%;
 }
 
+.white-background {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.input-card {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 2px dashed var(--medium-green);
+}
+
+.input-field {
+    border-radius: 10px;
+    border: 1px solid var(--light-green);
+}
+
 /* ===== ABOUT US PAGE ===== */
 
 .profile-img {
