@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from static.assets.members.members import members
+from controllers.pipeline_controller import pipeline_page
 
 app = Flask(__name__)
 
@@ -22,7 +23,7 @@ def run_pipeline_page():
 @app.route("/run-pipeline", methods=["GET", "POST"])
 def submit_pipeline():
     if request.method == "POST":
-        return render_template("pipeline-result.html")
+        return pipeline_page()
 
     # If someone just types the URL in manually (GET),
     # redirect them back to the upload page.
