@@ -3,14 +3,18 @@ from services.pipeline_service import run_pipeline
 
 def pipeline_page():
     method = request.form.get("method", "standard")
-    threshold = float(request.form.get("threshold", 0.5))
+    thresholdWhite = float(request.form.get("thresholdWhite", 0.5))
+    thresholdBlack = float(request.form.get("thresholdBlack", 0.5))
+    thresholdNDVI = float(request.form.get("thresholdNDVI", 0.5))
     wavelength = request.form.get("wavelength", "756")
     analysis = request.form.get("analysis", "profile")
 
-    data = run_pipeline(method, threshold, wavelength, analysis)
+    data = run_pipeline(method, thresholdWhite, thresholdBlack, thresholdNDVI, wavelength, analysis)
 
     data["method"] = method
-    data["threshold"] = threshold
+    data["thresholdWhite"] = thresholdWhite
+    data["thresholdBlack"] = thresholdBlack
+    data["thresholdNDVI"] = thresholdNDVI
     data["wavelength"] = wavelength
     data["analysis"] = analysis
 

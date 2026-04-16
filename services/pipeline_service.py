@@ -4,8 +4,9 @@ matplotlib.use('Agg')
 import os
 import matplotlib.pyplot as plt
 import numpy as np
+from utils.indices import indices
 
-def run_pipeline(method, threshold, wavelength, analysis):
+def run_pipeline(method, thresholdWhite, thresholdBlack, thresholdNDVI, wavelength, analysis):
 
     # simulate data
     x = np.linspace(400, 1000, 10)
@@ -27,11 +28,34 @@ def run_pipeline(method, threshold, wavelength, analysis):
     plt.savefig(output_path)
     plt.close()
 
+    # mock data for indices
+    results = []
+
+    for index in indices:
+        name = index["name"]
+
+        # replace this with real computation
+        value = compute_index(name, wavelength)
+
+        results.append({
+            "name": name,
+            "label": index["label"],
+            "value": value
+        })
+
     return {
         "before_image": "assets/images/before.jpg",
         "after_image": "assets/images/after.jpg",
         "graph": "generated/output.png",
         "method": method,
-        "threshold": threshold,
-        "wavelength": wavelength
+        "thresholdWhite": thresholdWhite,
+        "thresholdBlack": thresholdBlack,
+        "thresholdNDVI": thresholdNDVI,
+        "wavelength": wavelength,
+        "indices": results
     }
+
+def compute_index(name, wavelength):
+    # mock logic for now
+    import random
+    return round(random.uniform(0, 1), 3)
