@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from static.assets.members.members import members
 from controllers.pipeline_controller import pipeline_page
+from services.mongo_service import get_mongo_folders
 
 app = Flask(__name__)
 
@@ -17,7 +18,8 @@ def resources_page():
 
 @app.route("/upload-images")
 def run_pipeline_page():
-    return render_template("pipeline-upload.html")
+    folders = get_mongo_folders()
+    return render_template("pipeline-upload.html",folders=folders)
 
 
 @app.route("/run-pipeline", methods=["GET", "POST"])

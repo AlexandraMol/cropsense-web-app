@@ -6,11 +6,10 @@
     <div class="text-center mb-5">
         <h1 class="display-4">Cropsense Ingest</h1>
         <p class="lead mx-auto text-dark-green fw-bold">
-            Please upload a single ZIP folder containing all captured images.
+            Upload a ZIP file or select an existing dataset from the database.
         </p>
         <p class="homepage_card mx-auto text-center">
-            <strong>No sorting required</strong>—our system automatically organizes your data by camera type behind the
-            scenes.
+            <strong>No sorting required</strong>—our system automatically organizes your data by camera type.
         </p>
         <div class="mt-3">
             <span class="badge rounded-pill px-3 py-2 border text-dark-green white-background">
@@ -27,18 +26,44 @@
                 <div class="card section-card shadow-sm p-4 input-card">
                     <div class="card-body text-center">
 
+                        <!-- Data Source Selector -->
                         <div class="mb-4">
+                            <label class="form-label fw-bold text-dark-green">Choose Data Source</label>
+                            <select id="data_source" name="data_source" class="form-select input-field" onchange="toggleInput()">
+                                <option value="upload">Upload ZIP File</option>
+                                <option value="mongodb">Select from Database</option>
+                            </select>
+                            <div class="form-text mt-2">
+                                Choose an existing dataset or upload a new one.
+                            </div>
+                        </div>
+
+                        <!-- ZIP Upload Section -->
+                        <div id="upload_section" class="mb-4">
                             <label for="zip_file" class="form-label fw-bold text-dark-green">Select ZIP Archive</label>
-                            <input class="form-control input-field" type="file" id="zip_file" name="zip_file"
-                                   accept=".zip">
+                            <input class="form-control input-field" type="file" id="zip_file" name="zip_file" accept=".zip">
                             <div class="form-text mt-2">
                                 Accepted formats: .zip (Max 500MB)
                             </div>
                         </div>
 
+                        <!-- MongoDB Section -->
+                        <div id="mongodb_section" class="mb-4" style="display: none;">
+                            <label for="mongo_folder" class="form-label fw-bold text-dark-green">
+                                Select Dataset from Database
+                            </label>
+                            <select class="form-select input-field" id="mongo_folder" name="mongo_folder">
+                                {% for folder in folders %}
+                                <option value="{{ folder }}">{{ folder }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Submit -->
                         <button type="submit" class="btn btn-accent btn-lg fw-bold shadow-sm btn-custom">
                             START ETL PROCESS <i class="bi bi-arrow-right-circle ms-2"></i>
                         </button>
+
                     </div>
                 </div>
 
@@ -53,4 +78,7 @@
         </div>
     </div>
 </div>
+
+<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+
 {% endblock %}
