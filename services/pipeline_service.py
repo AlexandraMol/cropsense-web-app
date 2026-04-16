@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from utils.indices import indices
 
+from utils.pipeline import *
+
 def run_pipeline(method, thresholdWhite, thresholdBlack, thresholdNDVI, wavelength, analysis):
 
     # simulate data
