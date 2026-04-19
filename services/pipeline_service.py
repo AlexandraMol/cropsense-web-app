@@ -1,5 +1,6 @@
-from utils.pipeline import *
-from services.mongo_service import build_hyperspectral_data
+from utils.pipeline_service import run_pipeline as core_run_pipeline
+from utils.pipeline_service import plot_data
+
 
 def run_pipeline_service(
         sample_id,
@@ -10,59 +11,47 @@ def run_pipeline_service(
         wavelength,
         analysis
 ):
-
-    paths = build_hyperspectral_data(sample_id)
-
-    if not paths:
-        return None
-
-    signature = prepare_hyperspectral_data(
-        paths["raw"],
-        paths["dark"],
-        paths["white"],
-        background="darken",
-        min_brightness=thresholdBlack,
-        max_brightness=thresholdWhite,
-        ndvi_threshold=thresholdNDVI
+    # 1. Call REAL pipeline
+    result = core_run_pipeline(
+        sample_id=sample_id,
+        thresholds=[thresholdBlack, thresholdWhite, thresholdNDVI],
+        method=method,
+        wavelength=float(wavelength)
     )
 
-    if signature is None:
-        return None
+    # 2. Get graph (separate endpoint)
+    # plot_result = plot_data(analysis, sample_id)
+    graph_b64 = None
 
-    # 🔥 ONLY compute indices (this is the whole point)
-    indices = {
-        "NDVI": calculate_mean_ndvi(signature),
-        "GNDVI": calculate_mean_gndvi(signature),
-        "RVI": calculate_mean_rvi(signature),
-        "WI": calculate_mean_wi(signature),
-        "NDWI": calculate_mean_ndwi(signature),
-        "SIPI": calculate_mean_sipi(signature),
-        "PRI": calculate_mean_pri(signature),
-        "ARI": calculate_mean_ari(signature),
-        "CARI": calculate_mean_cari(signature),
-    }
+    # 3. Transform indices for your template
+    indices = []
+    indexes_dict = result.get("indexes", {})
+    images = result.get("images", {})
 
-    results = [
-        {
-            "name": k,
-            "label": k,
-            "value": float(v) if v is not None else 0.0
-        }
-        for k, v in indices.items()
-    ]
+    # indexes_dict comes from pandas → nested dict
+    for key in indexes_dict:
+        value = list(indexes_dict[key].values())[0]
+
+        indices.append({
+            "name": key,
+            "label": key,
+            "value": float(value)
+        })
 
     return {
-        "indices": results,
+        "indices": indices,
 
-        # optional UI stuff (keep for now)
+        # images from pipeline (BASE64 now)
+        "before_image": images.get("before"),
+        "after_image": images.get("after"),
+        "pca_image": images.get("pca_reduction"),
+        "graph": graph_b64,
+
+        # keep UI state
         "method": method,
         "thresholdWhite": thresholdWhite,
         "thresholdBlack": thresholdBlack,
         "thresholdNDVI": thresholdNDVI,
         "wavelength": wavelength,
-
-        # dummy placeholders for UI (you can remove later)
-        "before_image": "assets/images/before.jpg",
-        "after_image": "assets/images/after.jpg",
-        "graph": "generated/output.png"
+        "analysis": analysis
     }

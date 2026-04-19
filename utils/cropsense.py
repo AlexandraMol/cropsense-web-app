@@ -38,10 +38,12 @@ from sklearn.cluster import KMeans
 # In[2]:
 
 
-PATH_INBOX = "C:/CROPSENSE/INBOX"          # Inbox folder (Camera software output)
-PATH_DATA_ROOT = "C:/CROPSENSE/CROPSENSE_DATA" # Hierarchical final storage
-PATH_EXPORT = "C:/CROPSENSE/EXPORTED_FROM_DB" # Path where exported data from database will be stored
-CSV_LOG_PATH = "./experience_log.csv"      # Ground Truth tracking file
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+PATH_INBOX = os.path.join(BASE_DIR, "static", "generated")
+PATH_DATA_ROOT = os.path.join(PATH_INBOX, "CROPSENSE_DATA")
+PATH_EXPORT = os.path.join(PATH_INBOX, "EXPORTED_FROM_DB")
+CSV_LOG_PATH = os.path.join(BASE_DIR, "experience_log.csv")
 
 # MongoDB Connection (Auto-switch Local/Server)
 URIS_TO_TRY = ['172.20.10.8', 'localhost'] # Add your server IPs here
@@ -704,7 +706,18 @@ def run_pipeline():
     if not client: return
 
     db = client[DB_NAME]
+
+    # Indexes Initialization
+    db['capture_events'].create_index([('sample_id', 1), ('timestamp', -1)])
+    db['capture_events'].create_index([('timestamp', 1)])
+    db['capture_events'].create_index([('capture_status', 1), ('timestamp', 1)])
+    db['sensors_thermal'].create_index([('gridfs_ref', 1)], sparse=True)
+    db['sensors_multispectral'].create_index([('gridfs_ref', 1)], sparse=True)
+    db['sensors_hyperspectral'].create_index([('gridfs_ref', 1)], sparse=True)
+    db['ml_analysis'].create_index([('health_status', 1)])
+    db['ml_analysis'].create_index([('capture_event_id', 1)])
     fs = gridfs.GridFS(db)
+
 
     print("\n--- 2. Scientific Processing ---")
 
@@ -933,12 +946,12 @@ def export_file_from_db(output_folder, plant_id=None, sensor_type='spectral', th
     # 2. Find Event
     query = {}
     if plant_id:
-        query["context.plant_id"] = plant_id
+        query["sample_id"] = plant_id
         print(f"🔍 Searching last event for plant: {plant_id}...")
     else:
         print("🔍 Searching for the very last event recorded...")
 
-    event = coll.find_one(query, sort=[("context.timestamp", -1)])
+    event = coll.find_one(query, sort=[("timestamp", -1)])
     if not event:
         print("⚠️ No event found.")
         return None
@@ -950,23 +963,24 @@ def export_file_from_db(output_folder, plant_id=None, sensor_type='spectral', th
     try:
         if sensor_type == 'spectral':
             # Get the main TIFF file
-            data_node = event.get('sensor_multispectral', {})
-            file_id = data_node.get('raw_file_id')
-            original_filename = data_node.get('filename', 'spectral.tif')
+            ms_doc = db['sensors_multispectral'].find_one({"capture_event_id": event["_id"]})
+            file_id = ms_doc.get('gridfs_ref') if ms_doc else None
+            original_filename = ms_doc.get('filename', 'spectral.tif') if ms_doc else 'spectral.tif'
 
         elif sensor_type == 'thermal':
             # Get one of the 4 thermal files
-            files_node = event.get('sensor_thermal', {}).get('files', {})
-
+            th_doc = db['sensors_thermal'].find_one({"capture_event_id": event["_id"]})
+            gridfs_refs = th_doc.get('gridfs_ref', []) if th_doc else []
             # Map the user request to the database keys.
             # Keys are stored as plain names (e.g. "radiometric_jpg"), NOT with _id suffix.
-            db_key = thermal_file_type  # e.g. "radiometric_jpg"
 
-            file_id = files_node.get(db_key)
+            type_order = ['visual_rgb', 'radiometric_jpg', 'raw_thermal_tiff', 'cwsi_tiff']
+            idx = type_order.index(thermal_file_type) if thermal_file_type in type_order else 0
+            file_id = gridfs_refs[idx] if idx < len(gridfs_refs) else None
 
             # We try to reconstruct a name (since it wasn't explicitly stored in the simplified node)
             # But GridFS knows the name! We will get it later.
-            original_filename = f"thermal_{thermal_file_type}.img" 
+            original_filename = f"thermal_{thermal_file_type}.img"
 
         # 4. Download and Save
         if not file_id:
@@ -1031,10 +1045,9 @@ def batch_export_all():
     for doc in cursor:
         try:
             # 3. Context Info
-            context = doc.get('context', {})
-            plant_id = context.get('plant_id', 'Unknown')
+            plant_id = doc.get('sample_id', 'Unknown')
             # Safe timestamp handling
-            ts = context.get('timestamp')
+            ts = doc.get('timestamp')
             if isinstance(ts, str): # If stored as string
                 date_str = ts[:10] # YYYY-MM-DD
             elif isinstance(ts, datetime): # If stored as Date object
@@ -1049,19 +1062,17 @@ def batch_export_all():
                 os.makedirs(target_folder)
 
             # 5. Export Spectral File
-            spec_node = doc.get('sensor_multispectral', {})
-            spec_id = spec_node.get('raw_file_id')
+            ms_doc = db['sensors_multispectral'].find_one({"capture_event_id": doc["_id"]})
+            spec_id = ms_doc.get('gridfs_ref') if ms_doc else None
             if spec_id:
-                filename = spec_node.get('filename', f"spectral_{plant_id}.tif")
-                save_gridfs_file(fs, spec_id, target_folder, filename)
+               filename = ms_doc.get('filename', f"spectral_{plant_id}.tif")
+               save_gridfs_file(fs, spec_id, target_folder, filename)
 
             # 6. Export Thermal Files
-            therm_node = doc.get('sensor_thermal', {}).get('files', {})
-            for file_type, file_id in therm_node.items():
-                # file_type is like "radiometric_jpg_id"
-                # We construct a name if the original isn't stored, or get it from GridFS
-                filename = f"thermal_{file_type}.img" 
-                save_gridfs_file(fs, file_id, target_folder, filename)
+            th_doc = db['sensors_thermal'].find_one({"capture_event_id": doc["_id"]})
+            if th_doc:
+               for file_id in th_doc.get('gridfs_ref', []):
+                  save_gridfs_file(fs, file_id, target_folder, f"thermal_{file_id}.tif")
 
             count += 1
             print(f"   [{count}/{total_docs}] Processed {plant_id} ({date_str})")
@@ -1105,7 +1116,7 @@ def export_recent_files(output_folder, limit=5, plant_id=None, sensor_type='spec
     # 2. Query Configuration
     query = {}
     if plant_id:
-        query["context.plant_id"] = plant_id
+        query["sample_id"] = plant_id
         print(f"🔍 Searching for the last {limit} images for plant: {plant_id}...")
     else:
         print(f"🔍 Searching for the last {limit} images (all plants)...")
@@ -1123,21 +1134,16 @@ def export_recent_files(output_folder, limit=5, plant_id=None, sensor_type='spec
         try:
             # -- Same logic as the single function to find the ID --
             file_id = None
-            filename_prefix = ""
-
             if sensor_type == 'spectral':
-                data_node = event.get('sensor_multispectral', {})
-                file_id = data_node.get('raw_file_id')
-                # We add the timestamp to the name to avoid duplicates if filenames are identical
-                ts_str = event['context']['timestamp'].strftime("%H%M%S")
-                original_name = data_node.get('filename', 'spec.tif')
-
+                ms_doc = db['sensors_multispectral'].find_one({"capture_event_id": event["_id"]})
+                if ms_doc: file_id = ms_doc.get('gridfs_ref')
             elif sensor_type == 'thermal':
-                files_node = event.get('sensor_thermal', {}).get('files', {})
-                db_key = f"{thermal_file_type}_id"
-                file_id = files_node.get(db_key)
-                ts_str = event['context']['timestamp'].strftime("%H%M%S")
-                original_name = f"thermal_{thermal_file_type}.img"
+                th_doc = db['sensors_thermal'].find_one({"capture_event_id": event["_id"]})
+                if th_doc:
+                    gridfs_refs = th_doc.get('gridfs_ref', [])
+                    type_order = ['visual_rgb', 'radiometric_jpg', 'raw_thermal_tiff', 'cwsi_tiff']
+                    idx = type_order.index(thermal_file_type) if thermal_file_type in type_order else 0
+                    file_id = gridfs_refs[idx] if idx < len(gridfs_refs) else None
 
             # -- Download --
             if file_id:
@@ -1197,18 +1203,19 @@ def check_database_integrity(plant_id_to_check, mongo_uri='localhost', db_name='
 
     # 3. Find the Document
     # We look for the most recent event for this plant
-    event = coll.find_one({"context.plant_id": plant_id_to_check}, sort=[("context.timestamp", -1)])
+    event = coll.find_one({"sample_id": plant_id_to_check}, sort=[("timestamp", -1)])
 
     if not event:
         print(f"❌ No metadata document found for plant '{plant_id_to_check}'.")
         print("   -> Check if the Plant ID is correct (Case sensitive!).")
         return
 
-    print(f"✅ Metadata document found (Date: {event['context']['timestamp']})")
+    print(f"✅ Metadata document found (Date: {event['timestamp']})")
 
     # 4. Check Spectral File
     print("\n   [Spectral Sensor]")
-    spec_id = event.get('sensor_multispectral', {}).get('raw_file_id')
+    ms_doc = db['sensors_multispectral'].find_one({"capture_event_id": event["_id"]})
+    spec_id = ms_doc.get('gridfs_ref') if ms_doc else None
     if spec_id:
         if fs.exists(spec_id):
             file_meta = fs.get(spec_id)
@@ -1220,17 +1227,14 @@ def check_database_integrity(plant_id_to_check, mongo_uri='localhost', db_name='
 
     # 5. Check Thermal Files
     print("\n   [Thermal Sensor]")
-    thermal_files = event.get('sensor_thermal', {}).get('files', {})
-
-    if not thermal_files:
-        print("     ⚠️ No Thermal files linked (Empty list).")
-    else:
-        for file_type, file_id in thermal_files.items():
-            if fs.exists(file_id):
-                file_meta = fs.get(file_id)
-                print(f"     ✅ {file_type}: OK (Size: {file_meta.length / 1024:.2f} KB)")
-            else:
-                print(f"     ❌ {file_type}: Missing body in GridFS (ID: {file_id})")
+    th_doc = db['sensors_thermal'].find_one({"capture_event_id": event["_id"]})
+    thermal_refs = th_doc.get('gridfs_ref', []) if th_doc else []
+    for file_id in thermal_refs:
+        if fs.exists(file_id):
+          file_meta = fs.get(file_id)
+          print(f"     ✅ thermal file: OK (Size: {file_meta.length / 1024:.2f} KB)")
+        else:
+          print(f"     ❌ Missing file in GridFS (ID: {file_id})")
 
 
 # ### 3.7 `show_spectral_channel(filepath, channel_index, wavelength)`
@@ -1732,6 +1736,7 @@ def prepare_hyperspectral_data(raw_hdr_path, dark_hdr_path, white_hdr_path, back
     Version optimisée pour la MÉMOIRE (RAM) et la RAPIDITÉ.
     Empêche les crashs Jupyter sur les gros fichiers de 224 bandes.
     """
+
     print("⏳ [1/4] Chargement des références (Optimisation RAM)...")
 
     # 1. Chargement et purge immédiate des références pour libérer la RAM
@@ -2206,6 +2211,150 @@ def explain_spectral_index(index_name="ALL"):
         print(f"❌ Index '{index_name}' not found. Available: {', '.join(indices_db.keys())}")
 
 
+# In[53]:
+
+
+def create_custom_index(donnees, index_name, formula_str, bands_dict):
+    """
+    Calcule un indice hyperspectral sur-mesure, applique le masque,
+    et sauvegarde la formule dans un fichier texte.
+
+    Paramètres:
+    - donnees: Dictionnaire généré par prepare_hyperspectral_data
+    - index_name: Nom de l'indice (ex: "MY_SUPER_INDEX")
+    - formula_str: Formule mathématique sous forme de texte (ex: "(L1 - L2) / L3")
+    - bands_dict: Dictionnaire reliant les variables de la formule aux nm (Max 4).
+                  Ex: {"L1": 800, "L2": 670, "L3": 550}
+    """
+    if donnees is None:
+        print("⚠️ Aucune donnée fournie.")
+        return None
+
+    # 1. Vérification de la limite de 4 longueurs d'onde
+    if len(bands_dict) > 4:
+        print("❌ Erreur : Tu as spécifié plus de 4 longueurs d'onde. Maximum 4 autorisées.")
+        return None
+
+    cube = donnees["cube"]
+    wavelengths = donnees["wavelengths"]
+    masque = donnees["masque"]
+
+    # 2. Préparation des variables et du texte de sauvegarde
+    local_vars = {}
+    texte_sauvegarde = f"--- INDICE CUSTOMISÉ : {index_name.upper()} ---\n"
+    texte_sauvegarde += f"Formule : {formula_str}\n\n"
+    texte_sauvegarde += "Longueurs d'onde utilisées :\n"
+
+    for var_name, target_nm in bands_dict.items():
+        # Trouver la bande la plus proche dans le cube
+        idx = np.argmin(np.abs(wavelengths - target_nm))
+
+        # Extraire la matrice 2D correspondante
+        local_vars[var_name] = cube[:, :, idx]
+
+        texte_sauvegarde += f" - {var_name} : {target_nm} nm (Bande n°{idx})\n"
+
+    print(f"🧪 Calcul de l'indice customisé '{index_name}' en cours...")
+
+    # 3. Calcul mathématique sécurisé depuis le texte
+    try:
+        # np.errstate permet d'ignorer silencieusement les divisions par zéro du fond
+        with np.errstate(divide='ignore', invalid='ignore'):
+            # L'évaluation (eval) applique ta formule texte directement sur les matrices numpy
+            index_map = eval(formula_str, {"__builtins__": None}, local_vars)
+    except Exception as e:
+        print(f"❌ Erreur de syntaxe dans la formule : {e}")
+        return None
+
+    # 4. Sauvegarde du fichier texte
+    file_path = f"{index_name}.txt"
+    try:
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(texte_sauvegarde)
+        print(f"📝 Explications sauvegardées dans : {file_path}")
+    except IOError as e:
+        print(f"⚠️ Impossible de sauvegarder le fichier texte : {e}")
+
+    # 5. Application du masque et rotation (comme tes autres scripts)
+    index_map_masked = np.where(masque, index_map, np.nan)
+    index_map_rotated = np.rot90(index_map_masked, k=1)
+
+    return index_map_rotated
+
+def show_custom_map(index_map_rotated, index_name):
+    """ Affiche la carte générée par create_custom_index """
+    if index_map_rotated is None: return
+
+    plt.figure(figsize=(8, 8))
+    cmap = plt.cm.viridis.with_extremes(bad='black') # Fond noir
+
+    # Calcul dynamique des contrastes pour éviter les valeurs extrêmes aberrantes
+    pixels_valides = index_map_rotated[~np.isnan(index_map_rotated)]
+    vmin, vmax = np.percentile(pixels_valides, 2), np.percentile(pixels_valides, 98)
+
+    im = plt.imshow(index_map_rotated, cmap=cmap, vmin=vmin, vmax=vmax)
+    plt.colorbar(im, label=f"Valeur {index_name}", shrink=0.8)
+    plt.title(f"Carte Customisée : {index_name}")
+    plt.axis('off')
+    plt.tight_layout()
+    plt.show()
+
+
+def calculate_mean_custom_index(donnees, formula_str, bands_dict):
+    """
+    Calcule la moyenne d'un indice customisé sur l'ensemble de la plante.
+
+    Paramètres:
+    - donnees: Dictionnaire généré par prepare_hyperspectral_data
+    - formula_str: Formule mathématique sous forme de texte (ex: "(A - B) / C")
+    - bands_dict: Dictionnaire des variables et longueurs d'onde. (Max 4).
+    """
+    # Sécurité au cas où le moteur aurait échoué
+    if donnees is None:
+        print("⚠️ No data found")
+        return None
+
+    if len(bands_dict) > 4:
+        print("❌ Erreur : Tu as spécifié plus de 4 longueurs d'onde.")
+        return None
+
+    # 1. Extraction automatique depuis le dictionnaire
+    cube = donnees["cube"]
+    wavelengths = donnees["wavelengths"]
+    masque = donnees["masque"]
+
+    local_vars = {}
+
+    print(f"📊 Calcul Moyenne Indice Customisé...")
+
+    # 2. Extraire uniquement les pixels de la plante pour chaque bande
+    for var_name, target_nm in bands_dict.items():
+        band_idx = np.argmin(np.abs(wavelengths - target_nm))
+        print(f"   -> {var_name} = {target_nm} nm (Bande {band_idx})")
+
+        # On extrait la bande et on applique directement le masque [masque]
+        # local_vars[var_name] devient un tableau 1D contenant uniquement les pixels de la plante
+        local_vars[var_name] = cube[:, :, band_idx][masque]
+
+    # 3. Sécurité : vérifier si le masque est vide
+    # On prend la première variable au hasard pour vérifier la taille
+    premiere_variable = list(local_vars.values())[0]
+    if len(premiere_variable) == 0:
+        print("⚠️ The mask is empty, no pixel to analyse")
+        return None
+
+    # 4. Calcul de la formule sur les tableaux 1D
+    try:
+        with np.errstate(divide='ignore', invalid='ignore'):
+            index_array = eval(formula_str, {"__builtins__": None}, local_vars)
+    except Exception as e:
+        print(f"❌ Erreur de syntaxe dans la formule : {e}")
+        return None
+
+    # 5. Retourner la moyenne
+    return float(np.mean(index_array))
+
+
 # In[31]:
 
 
@@ -2541,6 +2690,111 @@ def calculate_mean_cari(donnees, cible_red=510, cible_nir=550):
     return float(np.mean(ari_array))
 
 
+# In[44]:
+
+
+def show_index_map(donnees, index_name="NDVI"):
+    """
+    Calcule et affiche la carte de n'importe quel indice hyperspectral.
+    Indices supportés : NDVI, GNDVI, RVI, WI, NDWI, SIPI, PRI, ARI, CARI
+    """
+    if donnees is None:
+        print("⚠️ Aucune donnée fournie.")
+        return
+
+    cube = donnees["cube"]
+    wavelengths = donnees["wavelengths"]
+    masque = donnees["masque"]
+    index_name = index_name.upper()
+
+    # --- Fonction utilitaire pour extraire une bande facilement ---
+    def get_band(target_nm):
+        idx = np.argmin(np.abs(wavelengths - target_nm))
+        return cube[:, :, idx]
+
+    # --- 1. Sélection des bandes et Calcul de l'indice pixel par pixel ---
+    print(f"🗺️ Génération de la carte pour l'indice : {index_name}")
+
+    if index_name == "NDVI":
+        b1, b2 = get_band(800), get_band(670)
+        index_map = (b1 - b2) / (b1 + b2 + 1e-6)
+        cmap_name = 'RdYlGn'
+
+    elif index_name == "GNDVI":
+        b1, b2 = get_band(800), get_band(550)
+        index_map = (b1 - b2) / (b1 + b2 + 1e-6)
+        cmap_name = 'RdYlGn'
+
+    elif index_name == "RVI":
+        b1, b2 = get_band(800), get_band(670)
+        index_map = b1 / (b2 + 1e-6)
+        cmap_name = 'viridis'
+
+    elif index_name == "WI":
+        b1, b2 = get_band(900), get_band(970)
+        index_map = b1 / (b2 + 1e-6)
+        cmap_name = 'Blues'
+
+    elif index_name == "NDWI":
+        b1, b2 = get_band(900), get_band(970)
+        index_map = (b1 - b2) / (b1 + b2 + 1e-6)
+        cmap_name = 'Blues_r'
+
+    elif index_name == "SIPI":
+        blue, red, nir = get_band(445), get_band(680), get_band(800)
+        index_map = (nir - blue) / (nir - red + 1e-6)
+        cmap_name = 'YlGn'
+
+    elif index_name == "PRI":
+        b1, b2 = get_band(531), get_band(570)
+        index_map = (b2 - b1) / (b2 + b1 + 1e-6)
+        cmap_name = 'PRGn'
+
+    elif index_name == "ARI":
+        red, nir = get_band(510), get_band(700)
+        index_map = (1 / (red + 1e-6)) - (1 / (nir + 1e-6))
+        cmap_name = 'magma'
+
+    elif index_name == "CARI":
+        red, nir = get_band(510), get_band(550)
+        index_map = (1 / (red + 1e-6)) - (1 / (nir + 1e-6))
+        cmap_name = 'magma'
+
+    else:
+        print(f"❌ Erreur : L'indice '{index_name}' n'est pas reconnu.")
+        return
+
+    # --- 2. Application du Masque ---
+    # Remplace les pixels hors plante par NaN (qui deviendront noirs)
+    index_map_masked = np.where(masque, index_map, np.nan)
+
+    # --- 3. Rotation pour correspondre à ton image RGB ---
+    index_map_rotated = np.rot90(index_map_masked, k=1)
+
+    # --- 4. Gestion dynamique du contraste (Percentiles) ---
+    # Comme certains indices (ARI, RVI) n'ont pas de limites de 0 à 1, 
+    # on utilise les percentiles 2% et 98% pour ignorer les valeurs extrêmes aberrantes.
+    pixels_valides = index_map_rotated[~np.isnan(index_map_rotated)]
+    if len(pixels_valides) > 0:
+        vmin = np.percentile(pixels_valides, 2)
+        vmax = np.percentile(pixels_valides, 98)
+    else:
+        vmin, vmax = 0, 1
+
+    # --- 5. Affichage Matplotlib ---
+    plt.figure(figsize=(8, 8))
+
+    # Configuration de la palette avec le fond noir pour les NaN
+    cmap = plt.colormaps.get_cmap(cmap_name).with_extremes(bad='black')
+
+    im = plt.imshow(index_map_rotated, cmap=cmap, vmin=vmin, vmax=vmax)
+    plt.colorbar(im, label=f"Valeur {index_name}", shrink=0.8)
+    plt.title(f"Carte de répartition : {index_name}")
+    plt.axis('off')
+    plt.tight_layout()
+    plt.show()
+
+
 # #### 3.12 `export_histogram_to_csv(filepath, output_csv, analysis_type, bins)`
 # 
 # This data extraction utility bridges the gap between the Python processing pipeline and external statistical tools (such as Excel, R, or JMP). Instead of generating a visual plot, it computes the numerical histogram data—specifically the bin edges and pixel counts—and serializes the results into a structured CSV format. For multispectral files in histogram mode, it generates a multi-column dataset containing the distribution frequency for each of the 10 separate bands; for thermal files, it outputs a single distribution profile. In profile mode, it generates a dataset containing all the wavelength frequency. This function enables researchers to perform quantitative comparative studies of exposure distributions across large datasets without needing to reopen the raw TIFF files.
@@ -2688,8 +2942,8 @@ def export_analysis_to_csv(filepath, output_csv="data_export.csv", analysis_type
 
 
 # In[39]:
-
-
+#
+#
 # # Example 1: Show band by Index (0 = 410nm)
 # show_spectral_channel("C:/CROPSENSE/CROPSENSE_DATA/2026-03-18/rust/Spectral/Spectral_rust_4.tif", channel_index=5)
 # show_spectral_channel("C:/CROPSENSE/CROPSENSE_DATA/2026-03-18/rust/Spectral/Spectral_rust_4.tif", wavelength=740)
@@ -2737,20 +2991,20 @@ def export_analysis_to_csv(filepath, output_csv="data_export.csv", analysis_type
 # plot_full_spectral_histogram("C:/CROPSENSE/CROPSENSE_DATA/2025-12-10/test/Spectral/test_20251201_153000_830_00000000_raw.tiff", mode='global', log_scale=True)
 #
 #
-# # In[43]:
+# # In[46]:
 #
 #
 # hyperspectral_data = prepare_hyperspectral_data("C:/CROPSENSE/CROPSENSE_DATA/2026-04-09/TestBatch/Spectral/Spectral_TestBatch_001.hdr", "C:/CROPSENSE/CROPSENSE_DATA/2026-04-09/TestBatch/Spectral/Spectral_TestBatch_DARKREF_001.hdr", "C:/CROPSENSE/CROPSENSE_DATA/2026-04-09/TestBatch/Spectral/Spectral_TestBatch_WHITEREF_001.hdr", 'purple', 0.07, 0.72, 0.01)
 # sick_plant, healthy_plant = separate_data(hyperspectral_data, ligne_coupe=800)
 #
 #
-# # In[44]:
+# # In[47]:
 #
 #
 # plot_spectral_profile("C:/CROPSENSE/CROPSENSE_DATA/2025-12-10/test/Spectral/test_20251201_153000_830_00000000_raw.tiff", smooth=False)
 #
 #
-# # In[45]:
+# # In[48]:
 #
 #
 # show_hyperspectral_image(hyperspectral_data)
@@ -2775,7 +3029,10 @@ def export_analysis_to_csv(filepath, output_csv="data_export.csv", analysis_type
 #
 # tableau_comparatif = compare_plants_indices([healthy_plant, sick_plant], ["Control Plant", "Inoculated Plant"])
 #
-#
+# show_index_map(hyperspectral_data, "NDVI")
+# show_index_map(hyperspectral_data, "PRI")
+# show_index_map(hyperspectral_data, "ARI")
+# show_index_map(hyperspectral_data, "SIPI")
 #
 # #explain_spectral_index("PRI")
 # explain_spectral_index("ALL")
@@ -2784,7 +3041,7 @@ def export_analysis_to_csv(filepath, output_csv="data_export.csv", analysis_type
 # tableau_comparatif
 #
 #
-# # In[46]:
+# # In[ ]:
 #
 #
 # # --- EXAMPLE: Export data to a CSV file ---
@@ -2798,7 +3055,7 @@ def export_analysis_to_csv(filepath, output_csv="data_export.csv", analysis_type
 # print(df.head())
 #
 #
-# # In[47]:
+# # In[ ]:
 #
 #
 # # 1. Chargement brut (assurez-vous que le .hdr est bien redevenu 'bil')
@@ -2863,6 +3120,37 @@ def export_analysis_to_csv(filepath, output_csv="data_export.csv", analysis_type
 #     print(f"👉 SOLUTION : Ouvrez votre fichier .hdr avec le Bloc-notes, et modifiez 'lines = {img.nrows}' par 'lines = {lignes_reelles}'")
 # elif img.nrows == lignes_reelles:
 #     print(f"\n✅ Le fichier est parfait ! Le problème vient de la limite de mémoire (RAM) de Windows.")
+#
+#
+# # In[55]:
+#
+#
+# # 1. The 4 strategic bands for diseased wheat
+# rust_bands = {
+#     "NIR": 800,      # Cell structure (decreases if the leaf is attacked)
+#     "GREEN": 550,    # Green reflection (increased with chlorosis/yellowing)
+#     "RED": 670,      # Chlorophyll absorption (decreases absorption if the plant is suffering)
+#     "RED_EDGE": 705  # Transition band very sensitive to early stress
+# }
+# # 2. The mathematical formula (Cross Ratio)
+# # Amplifies the stress signal by dividing the bands that increase by those that decrease formula_yri = "(GREEN * RED) / (NIR * RED_EDGE + 1e-6)"
+# formula_yri = "(GREEN * RED) / (NIR * RED_EDGE + 1e-6)"
+#
+#
+# # 3. Exécution avec ta fonction
+# rust_map = create_custom_index(
+#     donnees=hyperspectral_data,
+#     index_name="WHEAT_YELLOW_RUST_INDEX",
+#     formula_str=formula_yri,
+#     bands_dict=rust_bands
+# )
+#
+# # 4. Affichage
+# show_custom_map(rust_map, "Yellow Rust Detection (YRI)")
+#
+# rust_mean = calculate_mean_custom_index(hyperspectral_data, formula_yri, rust_bands)
+#
+# print(f"La valeur moyenne du YRI pour ce blé est de : {rust_mean:.4f}")
 #
 #
 # # In[ ]:
