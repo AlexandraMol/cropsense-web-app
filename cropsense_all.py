@@ -530,12 +530,27 @@ def run_pipeline():
                         specim_meta = prepare_hyperspectral_data(filepath, dark_files[0], white_files[0])
                         if specim_meta is None: continue
 
-                        raw_filepath = filepath.replace(".hdr", ".raw")
-                        if not os.path.exists(raw_filepath): raw_filepath = filepath.replace(".hdr", ".img")
+                        # 🟢 NEW: Gather all related files to create a complete bundle
+                        bundle_paths = [
+                            filepath, # Main HDR
+                            filepath.replace(".hdr", ".raw") if os.path.exists(filepath.replace(".hdr", ".raw")) else filepath.replace(".hdr", ".img"),
+                            filepath.replace(".hdr", ".log"),
+                            dark_files[0], # Dark HDR
+                            dark_files[0].replace(".hdr", ".raw") if os.path.exists(dark_files[0].replace(".hdr", ".raw")) else dark_files[0].replace(".hdr", ".img"),
+                            dark_files[0].replace(".hdr", ".log"),
+                            white_files[0], # White HDR
+                            white_files[0].replace(".hdr", ".raw") if os.path.exists(white_files[0].replace(".hdr", ".raw")) else white_files[0].replace(".hdr", ".img"),
+                            white_files[0].replace(".hdr", ".log")
+                        ]
 
-                        print(f"   [Storage] Uploading Hyperspectral cube to GridFS...")
-                        with open(raw_filepath, 'rb') as f:
-                            cube_file_id = fs.put(f, filename=os.path.basename(raw_filepath))
+                        # Filter out any files that might not exist (e.g., missing .log files)
+                        valid_bundle_paths = [p for p in bundle_paths if os.path.exists(p)]
+
+                        hs_file_ids = []
+                        print(f"   [Storage] Uploading {len(valid_bundle_paths)} Hyperspectral files to GridFS...")
+                        for p in valid_bundle_paths:
+                            with open(p, 'rb') as f:
+                                hs_file_ids.append(fs.put(f, filename=os.path.basename(p)))
 
                         # 🟢 1. Link to or create the Central Capture Event
                         event_id = get_or_create_capture_event(db, plant_id, timestamp)
@@ -543,7 +558,7 @@ def run_pipeline():
                         # 🟢 2. Build the specific Hyperspectral Document
                         hs_doc = {
                             "capture_event_id": event_id,
-                            "gridfs_ref": cube_file_id, 
+                            "gridfs_ref": hs_file_ids,  # Now stores the full list of IDs
                             "captured_at": timestamp,
                             "filename": file,
                             "spectral_range_nm": specim_meta.get("wavelengths", []),
@@ -551,7 +566,7 @@ def run_pipeline():
                         }
 
                         db["sensors_hyperspectral"].insert_one(sanitize_for_mongo(hs_doc))
-                        print(f"✅ [Success] Hyperspectral linked to Event ID: {event_id}")
+                        print(f"✅ [Success] Hyperspectral bundle linked to Event ID: {event_id}")
 
                 except Exception as e:
                     print(f"   ❌ Error processing hyperspectral {file}: {e}")
@@ -589,15 +604,14 @@ def run_pipeline():
                     event_id = get_or_create_capture_event(db, plant_id, timestamp)
 
                     # 🟢 2. Build and insert the Multispectral Document (Strict PDF Schema)
-                    # Assuming 'spec_data' contains 'ndvi' and 'histogram'
                     ms_doc = {
                         "capture_event_id": event_id,
                         "gridfs_ref": ms_file_id,
                         "captured_at": timestamp,
                         "filename": file,
                         "integration_time_ms": manifest_meta.get('exposure', None),
-                        "ndvi": spec_data.get('ndvi', None), # Extracted from dictionary
-                        "histogram_256": spec_data.get('histogram_256', []) # Extracted from dictionary
+                        "ndvi": spec_data.get('ndvi', None), 
+                        "histogram_256": spec_data.get('histogram_256', []) 
                     }
                     db["sensors_multispectral"].insert_one(sanitize_for_mongo(ms_doc))
 
@@ -607,16 +621,13 @@ def run_pipeline():
                             "capture_event_id": event_id,
                             "gridfs_ref": thermal_files_ids,
                             "captured_at": timestamp,
-                            # Adding fields requested by the PDF. 
-                            # If the function to read them is not yet ready, default to None.
                             "ambient_temp_c": None, 
                             "max_leaf_temp_c": None,
                             "cwsi": None 
                         }
                         db["sensors_thermal"].insert_one(sanitize_for_mongo(th_doc))
 
-                    # 🟢 4. ML_ANALYSIS INITIALIZATION (Optional but recommended)
-                    # Create a "pending" entry so your AI model knows there is work pending!
+                    # 🟢 4. ML_ANALYSIS INITIALIZATION
                     if db["ml_analysis"].count_documents({"capture_event_id": event_id}) == 0:
                         ml_doc = {
                             "capture_event_id": event_id,
@@ -636,7 +647,6 @@ def run_pipeline():
             # =========================================================================
             # INDEPENDENT THERMAL BLOCK
             # =========================================================================
-            # 🟢 FIX: .lower() makes it case-insensitive to catch .TIFF, .TIF, or .tiff
             elif file.lower().endswith((".tiff", ".tif")) and not file.endswith("_raw.tiff") and "spectral" not in file.lower():
 
                 # Anti-Duplicate Check
@@ -691,14 +701,13 @@ def run_pipeline():
 
 def export_file_from_db(output_folder, plant_id=None, sensor_type='spectral', thermal_file_type='radiometric_jpg', mongo_uri='localhost', db_name='cropsense_db'):
     """
-    Retrieves a file (Spectral, Thermal, or Hyperspectral) from MongoDB and saves it to disk.
+    Retrieves a file (or bundle of files) from MongoDB and saves it to disk.
 
     Parameters:
     - output_folder (str): Destination folder.
-    - plant_id (str, optional): ID of the plant (e.g., "P01"). If None, takes the latest event.
+    - plant_id (str, optional): ID of the plant. If None, takes the latest event.
     - sensor_type (str): 'spectral', 'thermal', OR 'hyperspectral'.
     - thermal_file_type (str): Only if sensor_type='thermal'. 
-                               Options: 'visual_rgb', 'radiometric_jpg', 'raw_thermal_tiff', 'cwsi_tiff'.
     """
 
     # 1. Connect to DB
@@ -725,60 +734,65 @@ def export_file_from_db(output_folder, plant_id=None, sensor_type='spectral', th
         print("⚠️ No event found.")
         return None
 
-    # 3. Identify File ID based on request
-    file_id = None
-    original_filename = "unknown_file"
+    # 3. Identify File IDs based on request
+    # We now use a list to support multiple files (like hyperspectral bundles)
+    file_ids_to_download = []
 
     try:
         if sensor_type == 'spectral':
-            # Get the main Multispectral TIFF file
             ms_doc = db['sensors_multispectral'].find_one({"capture_event_id": event["_id"]})
-            file_id = ms_doc.get('gridfs_ref') if ms_doc else None
-            original_filename = ms_doc.get('filename', 'spectral.tiff') if ms_doc else 'spectral.tiff'
+            if ms_doc and ms_doc.get('gridfs_ref'):
+                file_ids_to_download.append(ms_doc.get('gridfs_ref'))
 
         elif sensor_type == 'hyperspectral':
-            # Get the Hyperspectral raw cube
             hs_doc = db['sensors_hyperspectral'].find_one({"capture_event_id": event["_id"]})
-            file_id = hs_doc.get('gridfs_ref') if hs_doc else None
-            original_filename = hs_doc.get('filename', 'hyperspectral.raw') if hs_doc else 'hyperspectral.raw'
+            if hs_doc:
+                refs = hs_doc.get('gridfs_ref')
+                # If it's a list of files (HDR, RAW, DARK, WHITE), add them all
+                if isinstance(refs, list):
+                    file_ids_to_download.extend(refs)
+                # Backward compatibility: if it's just a single RAW file string/ObjectId
+                elif refs:
+                    file_ids_to_download.append(refs)
 
         elif sensor_type == 'thermal':
-            # Get one of the 4 thermal files
             th_doc = db['sensors_thermal'].find_one({"capture_event_id": event["_id"]})
-            gridfs_refs = th_doc.get('gridfs_ref', []) if th_doc else []
-
-            # Map the user request to the database keys
-            type_order = ['visual_rgb', 'radiometric_jpg', 'raw_thermal_tiff', 'cwsi_tiff']
-            idx = type_order.index(thermal_file_type) if thermal_file_type in type_order else 0
-            file_id = gridfs_refs[idx] if idx < len(gridfs_refs) else None
-
-            original_filename = f"thermal_{thermal_file_type}.img"
+            if th_doc:
+                gridfs_refs = th_doc.get('gridfs_ref', [])
+                type_order = ['visual_rgb', 'radiometric_jpg', 'raw_thermal_tiff', 'cwsi_tiff']
+                idx = type_order.index(thermal_file_type) if thermal_file_type in type_order else 0
+                if idx < len(gridfs_refs):
+                    file_ids_to_download.append(gridfs_refs[idx])
 
         # 4. Download and Save
-        if not file_id:
+        if not file_ids_to_download:
             print(f"⚠️ No file found for sensor '{sensor_type}' in this event.")
             return None
 
         if not os.path.exists(output_folder):
             os.makedirs(output_folder)
 
-        # Retrieve from GridFS
-        grid_out = fs.get(file_id)
-        data = grid_out.read()
+        downloaded_paths = []
 
-        # Use the real filename stored in GridFS if possible
-        if grid_out.filename:
-            original_filename = grid_out.filename
+        # Iterate through all required files (1 for MS/Thermal, 9+ for Hyperspectral)
+        for f_id in file_ids_to_download:
+            grid_out = fs.get(f_id)
+            data = grid_out.read()
 
-        output_path = os.path.join(output_folder, original_filename)
+            # Use the real filename stored in GridFS, fallback to a generic name
+            original_filename = grid_out.filename if grid_out.filename else f"unknown_{f_id}.bin"
+            output_path = os.path.join(output_folder, original_filename)
 
-        with open(output_path, 'wb') as f:
-            f.write(data)
+            with open(output_path, 'wb') as f:
+                f.write(data)
 
-        print(f"✅ File saved: {output_path}")
-        # Fixed the nested dictionary call that would cause a KeyError
+            downloaded_paths.append(output_path)
+            print(f"✅ File saved: {output_path}")
+
         print(f"   (Source: {sensor_type} | Date: {event.get('timestamp', 'Unknown')})")
-        return output_path
+
+        # Return the list of paths if multiple files, or just the string if it's a single file
+        return downloaded_paths if len(downloaded_paths) > 1 else downloaded_paths[0]
 
     except Exception as e:
         print(f"❌ Error during extraction: {e}")
