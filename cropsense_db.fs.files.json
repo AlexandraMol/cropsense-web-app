@@ -1,0 +1,624 @@
+[{
+  "_id": {
+    "$oid": "69de2c257c509af4e5635f7d"
+  },
+  "filename": "Spectral_FirstTests_00000001_raw.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "8388961"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.125Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5635fa2"
+  },
+  "filename": "Spectral_FirstTests_00000002_raw.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "8388961"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.336Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5635fc5"
+  },
+  "filename": "Spectral_FirstTests_00000003_raw.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "8388961"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.513Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5635fe8"
+  },
+  "filename": "Spectral_FirstTests_00000004_raw.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "8388961"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.686Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e563600b"
+  },
+  "filename": "Thermal_OtherTests_10-12-402-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.710Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636012"
+  },
+  "filename": "Thermal_OtherTests_10-12-402-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.740Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636017"
+  },
+  "filename": "Thermal_OtherTests_10-16-262-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.756Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e563601c"
+  },
+  "filename": "Thermal_OtherTests_10-16-262-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.770Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636021"
+  },
+  "filename": "Thermal_OtherTests_10-22-874-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.784Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636026"
+  },
+  "filename": "Thermal_OtherTests_10-22-874-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.801Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e563602b"
+  },
+  "filename": "Thermal_OtherTests_10-26-722-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.813Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636030"
+  },
+  "filename": "Thermal_OtherTests_10-26-722-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.826Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636035"
+  },
+  "filename": "Thermal_OtherTests_10-28-093-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.840Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e563603a"
+  },
+  "filename": "Thermal_OtherTests_10-28-093-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.854Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e563603f"
+  },
+  "filename": "Thermal_OtherTests_10-28-201-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.871Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636044"
+  },
+  "filename": "Thermal_OtherTests_10-28-201-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.883Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636049"
+  },
+  "filename": "Thermal_OtherTests_10-35-052-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.906Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e563604e"
+  },
+  "filename": "Thermal_OtherTests_10-35-052-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:33.920Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636053"
+  },
+  "filename": "PO1_00000000_raw.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "8388961"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.077Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e5636078"
+  },
+  "filename": "Thermal_PreSample_00-05-46-080-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.093Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e563607f"
+  },
+  "filename": "Thermal_PreSample_00-05-46-080-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.106Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e5636084"
+  },
+  "filename": "Thermal_PreSample_00-07-15-766-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.132Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e5636089"
+  },
+  "filename": "Thermal_PreSample_00-07-15-766-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.147Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e563608e"
+  },
+  "filename": "Thermal_PreSample_00-07-28-306-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655816"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.162Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e5636093"
+  },
+  "filename": "Thermal_PreSample_00-07-28-306-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655752"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.180Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e5636098"
+  },
+  "filename": "Thermal_PreSample_00-08-09-074-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.196Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e563609d"
+  },
+  "filename": "Thermal_PreSample_00-08-09-074-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.211Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360a2"
+  },
+  "filename": "Thermal_PreSample_00-08-16-877-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.228Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360a7"
+  },
+  "filename": "Thermal_PreSample_00-08-16-877-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.247Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360ac"
+  },
+  "filename": "Thermal_PreSample_00-08-20-286-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.262Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360b1"
+  },
+  "filename": "Thermal_PreSample_00-08-20-286-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.277Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360b6"
+  },
+  "filename": "Thermal_PreSample_00-08-20-597-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.291Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360bb"
+  },
+  "filename": "Thermal_PreSample_00-08-20-597-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.306Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360c0"
+  },
+  "filename": "Thermal_PreSample_00-08-24-870-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.320Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360c5"
+  },
+  "filename": "Thermal_PreSample_00-08-24-870-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.335Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360ca"
+  },
+  "filename": "Thermal_PreSample_00-08-28-670-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.358Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360cf"
+  },
+  "filename": "Thermal_PreSample_00-08-28-670-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.369Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360d4"
+  },
+  "filename": "Thermal_PreSample_00-08-32-294-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.383Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360d9"
+  },
+  "filename": "Thermal_PreSample_00-08-32-294-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.395Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360de"
+  },
+  "filename": "Thermal_PreSample_00-08-52-635-cwsi.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655818"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.407Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360e3"
+  },
+  "filename": "Thermal_PreSample_00-08-52-635-thermo.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "655754"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.421Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360e8"
+  },
+  "filename": "test_20251201_153000_830_00000000_raw.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "8388961"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.577Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e563610d"
+  },
+  "filename": "test_20251201_153104_256_00000001_raw.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "8388961"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.734Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e5636130"
+  },
+  "filename": "test_20251201_161152_915_00000002_raw.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "8388961"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:34.923Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e5636153"
+  },
+  "filename": "test_20251201_161234_332_00000003_raw.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "8388961"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:35.075Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c277c509af4e5636176"
+  },
+  "filename": "TEST2_20251210_142237_913_00000000_raw.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "8388961"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:35.227Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c277c509af4e563619b"
+  },
+  "filename": "TEST2_20251210_142242_848_00000001_raw.tiff",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "8388961"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:35.429Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69de2c2e7c509af4e56361be"
+  },
+  "filename": "Spectral_TestBatch_001.raw",
+  "chunkSize": 261120,
+  "length": {
+    "$numberLong": "780795904"
+  },
+  "uploadDate": {
+    "$date": "2026-04-14T11:59:54.022Z"
+  }
+}]

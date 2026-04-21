@@ -1,0 +1,756 @@
+[{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636010"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e563600f"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c257c509af4e563600b"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.203Z"
+  },
+  "filename": "Thermal_OtherTests_10-12-402-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636016"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e563600f"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c257c509af4e5636012"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.235Z"
+  },
+  "filename": "Thermal_OtherTests_10-12-402-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e563601b"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e563600f"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c257c509af4e5636017"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.252Z"
+  },
+  "filename": "Thermal_OtherTests_10-16-262-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636020"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e563600f"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c257c509af4e563601c"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.288Z"
+  },
+  "filename": "Thermal_OtherTests_10-16-262-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636025"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e563600f"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c257c509af4e5636021"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.304Z"
+  },
+  "filename": "Thermal_OtherTests_10-22-874-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e563602a"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e563600f"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c257c509af4e5636026"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.335Z"
+  },
+  "filename": "Thermal_OtherTests_10-22-874-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e563602f"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e563600f"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c257c509af4e563602b"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.018Z"
+  },
+  "filename": "Thermal_OtherTests_10-26-722-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636034"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e563600f"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c257c509af4e5636030"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.066Z"
+  },
+  "filename": "Thermal_OtherTests_10-26-722-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636039"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e563600f"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c257c509af4e5636035"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.086Z"
+  },
+  "filename": "Thermal_OtherTests_10-28-093-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e563603e"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e563600f"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c257c509af4e563603a"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.130Z"
+  },
+  "filename": "Thermal_OtherTests_10-28-093-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636043"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e563600f"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c257c509af4e563603f"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.352Z"
+  },
+  "filename": "Thermal_OtherTests_10-28-201-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636048"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e563600f"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c257c509af4e5636044"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.380Z"
+  },
+  "filename": "Thermal_OtherTests_10-28-201-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e563604d"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e563600f"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c257c509af4e5636049"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.154Z"
+  },
+  "filename": "Thermal_OtherTests_10-35-052-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5636052"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e563600f"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c257c509af4e563604e"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.190Z"
+  },
+  "filename": "Thermal_OtherTests_10-35-052-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e563607d"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e5636078"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.375Z"
+  },
+  "filename": "Thermal_PreSample_00-05-46-080-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e5636083"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e563607f"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.414Z"
+  },
+  "filename": "Thermal_PreSample_00-05-46-080-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e5636088"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e5636084"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.430Z"
+  },
+  "filename": "Thermal_PreSample_00-07-15-766-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e563608d"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e5636089"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.458Z"
+  },
+  "filename": "Thermal_PreSample_00-07-15-766-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e5636092"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e563608e"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.478Z"
+  },
+  "filename": "Thermal_PreSample_00-07-28-306-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e5636097"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e5636093"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.513Z"
+  },
+  "filename": "Thermal_PreSample_00-07-28-306-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e563609c"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e5636098"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.607Z"
+  },
+  "filename": "Thermal_PreSample_00-08-09-074-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360a1"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e563609d"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.647Z"
+  },
+  "filename": "Thermal_PreSample_00-08-09-074-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360a6"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e56360a2"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.668Z"
+  },
+  "filename": "Thermal_PreSample_00-08-16-877-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360ab"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e56360a7"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.702Z"
+  },
+  "filename": "Thermal_PreSample_00-08-16-877-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360b0"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e56360ac"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.535Z"
+  },
+  "filename": "Thermal_PreSample_00-08-20-286-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360b5"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e56360b1"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.584Z"
+  },
+  "filename": "Thermal_PreSample_00-08-20-286-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360ba"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e56360b6"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.719Z"
+  },
+  "filename": "Thermal_PreSample_00-08-20-597-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360bf"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e56360bb"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.757Z"
+  },
+  "filename": "Thermal_PreSample_00-08-20-597-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360c4"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e56360c0"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.780Z"
+  },
+  "filename": "Thermal_PreSample_00-08-24-870-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360c9"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e56360c5"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.813Z"
+  },
+  "filename": "Thermal_PreSample_00-08-24-870-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360ce"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e56360ca"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.837Z"
+  },
+  "filename": "Thermal_PreSample_00-08-28-670-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360d3"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e56360cf"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.866Z"
+  },
+  "filename": "Thermal_PreSample_00-08-28-670-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360d8"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e56360d4"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.892Z"
+  },
+  "filename": "Thermal_PreSample_00-08-32-294-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360dd"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e56360d9"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.924Z"
+  },
+  "filename": "Thermal_PreSample_00-08-32-294-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360e2"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e56360de"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.946Z"
+  },
+  "filename": "Thermal_PreSample_00-08-52-635-cwsi.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e56360e7"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563607c"
+  },
+  "gridfs_ref": [
+    {
+      "$oid": "69de2c267c509af4e56360e3"
+    }
+  ],
+  "captured_at": {
+    "$date": "2025-12-10T19:23:35.981Z"
+  },
+  "filename": "Thermal_PreSample_00-08-52-635-thermo.tiff",
+  "camera_model": "WORKSWELL WIRIS AGRO R",
+  "ambient_temp_c": null,
+  "max_leaf_temp_c": null,
+  "cwsi": null
+}]

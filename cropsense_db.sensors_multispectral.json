@@ -1,0 +1,198 @@
+[{
+  "_id": {
+    "$oid": "69de2c257c509af4e5635fa0"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e5635f9f"
+  },
+  "gridfs_ref": {
+    "$oid": "69de2c257c509af4e5635f7d"
+  },
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.596Z"
+  },
+  "filename": "Spectral_FirstTests_00000001_raw.tiff",
+  "integration_time_ms": null,
+  "ndvi": null,
+  "histogram_256": []
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5635fc4"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e5635f9f"
+  },
+  "gridfs_ref": {
+    "$oid": "69de2c257c509af4e5635fa2"
+  },
+  "captured_at": {
+    "$date": "2025-12-10T19:23:36.798Z"
+  },
+  "filename": "Spectral_FirstTests_00000002_raw.tiff",
+  "integration_time_ms": null,
+  "ndvi": null,
+  "histogram_256": []
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e5635fe7"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e5635f9f"
+  },
+  "gridfs_ref": {
+    "$oid": "69de2c257c509af4e5635fc5"
+  },
+  "captured_at": {
+    "$date": "2025-12-10T19:23:37.023Z"
+  },
+  "filename": "Spectral_FirstTests_00000003_raw.tiff",
+  "integration_time_ms": null,
+  "ndvi": null,
+  "histogram_256": []
+},
+{
+  "_id": {
+    "$oid": "69de2c257c509af4e563600a"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c257c509af4e5635f9f"
+  },
+  "gridfs_ref": {
+    "$oid": "69de2c257c509af4e5635fe8"
+  },
+  "captured_at": {
+    "$date": "2025-12-10T19:23:37.281Z"
+  },
+  "filename": "Spectral_FirstTests_00000004_raw.tiff",
+  "integration_time_ms": null,
+  "ndvi": null,
+  "histogram_256": []
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e5636076"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e5636075"
+  },
+  "gridfs_ref": {
+    "$oid": "69de2c257c509af4e5636053"
+  },
+  "captured_at": {
+    "$date": "2025-12-10T19:23:37.412Z"
+  },
+  "filename": "PO1_00000000_raw.tiff",
+  "integration_time_ms": null,
+  "ndvi": null,
+  "histogram_256": []
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e563610b"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563610a"
+  },
+  "gridfs_ref": {
+    "$oid": "69de2c267c509af4e56360e8"
+  },
+  "captured_at": {
+    "$date": "2025-12-10T19:23:37.542Z"
+  },
+  "filename": "test_20251201_153000_830_00000000_raw.tiff",
+  "integration_time_ms": null,
+  "ndvi": null,
+  "histogram_256": []
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e563612f"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563610a"
+  },
+  "gridfs_ref": {
+    "$oid": "69de2c267c509af4e563610d"
+  },
+  "captured_at": {
+    "$date": "2025-12-10T19:23:37.671Z"
+  },
+  "filename": "test_20251201_153104_256_00000001_raw.tiff",
+  "integration_time_ms": null,
+  "ndvi": null,
+  "histogram_256": []
+},
+{
+  "_id": {
+    "$oid": "69de2c267c509af4e5636152"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563610a"
+  },
+  "gridfs_ref": {
+    "$oid": "69de2c267c509af4e5636130"
+  },
+  "captured_at": {
+    "$date": "2025-12-10T19:23:37.805Z"
+  },
+  "filename": "test_20251201_161152_915_00000002_raw.tiff",
+  "integration_time_ms": null,
+  "ndvi": null,
+  "histogram_256": []
+},
+{
+  "_id": {
+    "$oid": "69de2c277c509af4e5636175"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c267c509af4e563610a"
+  },
+  "gridfs_ref": {
+    "$oid": "69de2c267c509af4e5636153"
+  },
+  "captured_at": {
+    "$date": "2025-12-10T19:23:37.953Z"
+  },
+  "filename": "test_20251201_161234_332_00000003_raw.tiff",
+  "integration_time_ms": null,
+  "ndvi": null,
+  "histogram_256": []
+},
+{
+  "_id": {
+    "$oid": "69de2c277c509af4e5636199"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c277c509af4e5636198"
+  },
+  "gridfs_ref": {
+    "$oid": "69de2c277c509af4e5636176"
+  },
+  "captured_at": {
+    "$date": "2025-12-10T14:41:36.795Z"
+  },
+  "filename": "TEST2_20251210_142237_913_00000000_raw.tiff",
+  "integration_time_ms": null,
+  "ndvi": null,
+  "histogram_256": []
+},
+{
+  "_id": {
+    "$oid": "69de2c277c509af4e56361bd"
+  },
+  "capture_event_id": {
+    "$oid": "69de2c277c509af4e5636198"
+  },
+  "gridfs_ref": {
+    "$oid": "69de2c277c509af4e563619b"
+  },
+  "captured_at": {
+    "$date": "2025-12-10T14:41:36.846Z"
+  },
+  "filename": "TEST2_20251210_142242_848_00000001_raw.tiff",
+  "integration_time_ms": null,
+  "ndvi": null,
+  "histogram_256": []
+}]
