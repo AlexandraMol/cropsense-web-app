@@ -34,6 +34,17 @@ body {
     transition: all 0.2s ease;
 }
 
+.card_processing {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-uniform {
+  width: 100%;
+  object-fit: cover;      /* keeps proportions, crops nicely */
+}
+
 .section-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
@@ -58,6 +69,11 @@ body {
 .btn-accent:hover {
     background-color: var(--dark-green);
     color: var(--dark-yellow);
+}
+
+.form-range {
+    background-color: white;
+    width: 40%;
 }
 
 /* ===== TEXTS ===== */
