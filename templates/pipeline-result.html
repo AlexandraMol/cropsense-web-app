@@ -128,12 +128,14 @@
         <h6 class="fw-bold">Spatial Distribution Maps</h6>
 
         <div class="row g-3">
+          {% if data.index_maps %}
           {% for name, img in data.index_maps.items() %}
           <div class="col-md-6 text-center">
             <p class="small text-muted">{{ name }}</p>
             <img src="data:image/png;base64,{{ img }}" class="img-report"/>
           </div>
           {% endfor %}
+          {% endif %}
         </div>
       </div>
 
@@ -170,6 +172,8 @@
 
   <!-- ACTIONS -->
   <div class="text-center mt-5">
+    <input type="hidden" name="data_source" value="mongodb">
+
     <button type="submit" class="btn btn-accent btn-lg px-5">
       Apply Changes
     </button>
