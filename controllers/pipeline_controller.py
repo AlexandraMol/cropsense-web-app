@@ -16,7 +16,7 @@ def pipeline_page():
         return "Upload pipeline not implemented yet"
 
     elif data_source == "mongodb":
-
+        selected_indices = request.form.getlist("indices")
         data = run_pipeline_service(
             sample_id=request.form.get("mongo_folder"),
             method=request.form.get("method", "standard"),
@@ -24,7 +24,8 @@ def pipeline_page():
             thresholdBlack=float(request.form.get("thresholdBlack", "0.5")),
             thresholdNDVI=float(request.form.get("thresholdNDVI", "0.5")),
             wavelength=request.form.get("wavelength", "756"),
-            analysis=request.form.get("analysis", "profile")
+            analysis=request.form.get("analysis", "profile"),
+            selected_indices=selected_indices 
         )
 
     return render_template("pipeline-result.html", data=data)

@@ -1,6 +1,21 @@
 from utils.cropsense_all import *
 from utils.plot_utils import *
-from utils.indices import INDEX_META, INDEX_MAPS
+from utils.indices import INDEX_META
+
+# -----------------------------
+# INDEX FUNCTION MAP
+# -----------------------------
+INDEX_FUNCTIONS = {
+    "NDVI": calculate_mean_ndvi,
+    "GNDVI": calculate_mean_gndvi,
+    "RVI": calculate_mean_rvi,
+    "WI": calculate_mean_wi,
+    "NDWI": calculate_mean_ndwi,
+    "SIPI": calculate_mean_sipi,
+    "PRI": calculate_mean_pri,
+    "ARI": calculate_mean_ari,
+    "CARI": calculate_mean_cari,
+}
 
 # -----------------------------
 # CACHE (important)
@@ -55,21 +70,29 @@ def run_full_pipeline(sample_id):
 
 
 # -----------------------------
-# DYNAMIC ANALYSIS (RE-RUN OK)
+# DYNAMIC ANALYSIS
 # -----------------------------
-def compute_analysis(hyperspectral_data, healthy, sick):
+def compute_analysis(hyperspectral_data, healthy, sick, selected_indices):
 
-    indices_values = {
-        "NDVI": calculate_mean_ndvi(hyperspectral_data),
-        "GNDVI": calculate_mean_gndvi(hyperspectral_data),
-        "RVI": calculate_mean_rvi(hyperspectral_data),
-        "WI": calculate_mean_wi(hyperspectral_data),
-        "NDWI": calculate_mean_ndwi(hyperspectral_data),
-        "SIPI": calculate_mean_sipi(hyperspectral_data),
-        "PRI": calculate_mean_pri(hyperspectral_data),
-        "ARI": calculate_mean_ari(hyperspectral_data),
-        "CARI": calculate_mean_cari(hyperspectral_data),
-    }
+    # fallback (if nothing selected)
+    if not selected_indices:
+        selected_indices = list(INDEX_FUNCTIONS.keys())
+
+    # -----------------------------
+    # INDICES VALUES
+    # -----------------------------
+    indices_values = {}
+
+    for idx in selected_indices:
+        func = INDEX_FUNCTIONS.get(idx)
+
+        if not func:
+            continue
+
+        try:
+            indices_values[idx] = func(hyperspectral_data)
+        except Exception as e:
+            print(f"Error computing {idx}: {e}")
 
     indices = [
         {
@@ -80,6 +103,9 @@ def compute_analysis(hyperspectral_data, healthy, sick):
         for key, value in indices_values.items()
     ]
 
+    # -----------------------------
+    # COMPARISON TABLE
+    # -----------------------------
     comparison = format_comparison_for_frontend(
         compare_plants_indices_json(
             [healthy, sick],
@@ -87,16 +113,21 @@ def compute_analysis(hyperspectral_data, healthy, sick):
         )
     )
 
+    # -----------------------------
+    # INDEX MAPS
+    # -----------------------------
     maps_b64 = {}
 
-    for idx in INDEX_MAPS:
+    for idx in selected_indices:
+
         index_map, cmap = compute_index_map(hyperspectral_data, idx)
 
         if index_map is None:
             continue
 
         fig_map = get_index_map_figure(index_map, cmap, idx)
-        maps_b64[idx] = fig_to_base64(fig_map)
+
+        maps_b64[idx] = fig_to_base64(fig_map) if fig_map else None
 
     return {
         "indices": indices,
@@ -115,22 +146,31 @@ def run_pipeline_service(
     thresholdBlack,
     thresholdNDVI,
     wavelength,
-    analysis
+    analysis,
+    selected_indices
 ):
 
+    # -----------------------------
     # 1. CACHE PIPELINE
+    # -----------------------------
     if sample_id not in PIPELINE_CACHE:
         PIPELINE_CACHE[sample_id] = run_full_pipeline(sample_id)
 
     base = PIPELINE_CACHE[sample_id]
 
+    # -----------------------------
     # 2. DYNAMIC ANALYSIS ONLY
+    # -----------------------------
     analysis_data = compute_analysis(
         base["hyperspectral_data"],
         base["healthy"],
-        base["sick"]
+        base["sick"],
+        selected_indices
     )
 
+    # -----------------------------
+    # FINAL RESPONSE
+    # -----------------------------
     return {
         "sample_id": sample_id,
 
@@ -146,6 +186,8 @@ def run_pipeline_service(
         "indices": analysis_data["indices"],
         "comparison": analysis_data["comparison"],
         "index_maps": analysis_data["index_maps"],
+
+        "selected_indices": selected_indices,
 
         # UI STATE
         "method": method,
